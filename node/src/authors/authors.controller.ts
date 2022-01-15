@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { AuthorsService } from './authors.service';
 import { CreateAuthorDto } from './dto/create-author.dto';
@@ -25,14 +26,14 @@ export class AuthorsController {
     return this.authorsService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.authorsService.findOne(+id);
+  @Get('/author')
+  findOne(@Query('name') name: string) {
+    return this.authorsService.findOne(name);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateAuthorDto: UpdateAuthorDto) {
-    return this.authorsService.update();
+  update(@Param('id') id: string, @Body() { name }: UpdateAuthorDto) {
+    return this.authorsService.update({ id, name });
   }
 
   @Delete(':id')
