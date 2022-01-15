@@ -1,0 +1,50 @@
+version: '3'
+
+services:
+  bookstore-app:
+    build: 
+      context: ./node
+      dockerfile: Dockerfile
+    entrypoint: ./.docker/entrypoint.sh
+    volumes: 
+      - ./node:/home/node/app
+    container_name: bookstore_app
+    depends_on:
+      - bookstore-db
+    networks:
+      - bookstore-network
+      - db-network
+    ports:
+      - 5555:5555
+
+  bookstore-db:
+    image: mysql:5.7
+    command: --innodb-use-native-aio=0
+    container_name: bookstore_db
+    restart: always
+    tty: true
+    volumes:
+      - ./node/.docker/mysql/dbdata:/var/lib/mysql
+    environment:
+      - MYSQL_DATABASE=bookstore
+      - MYSQL_ROOT_PASSWORD=docker
+    networks:
+      - db-network
+
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    container_name: bookstore-nginx
+    networks:
+      - bookstore-network
+    ports:
+      - 8080:80
+    depends_on:
+      - bookstore-app
+
+networks:
+  bookstore-network:
+    driver: bridge
+  db-network:
+    driver: bridge
