@@ -28,8 +28,12 @@ export class BooksController {
   }
 
   @Get()
-  findAll(@Query('page') page: string, @Query('limit') limit: string) {
-    return this.booksService.findAll(page, limit);
+  findAll(
+    @Query('page') page: string,
+    @Query('limit') limit: string,
+    @Query('title') title: string,
+  ) {
+    return this.booksService.findAll(page, limit, title);
   }
 
   @Get(':id')

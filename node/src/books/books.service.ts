@@ -57,7 +57,7 @@ export class BooksService {
     });
   }
 
-  async findAll(page: string, limit: string) {
+  async findAll(page: string, limit: string, title?: string) {
     const parseLimit = Number(limit);
     const parsePage = Number(page);
 
@@ -66,6 +66,11 @@ export class BooksService {
       take: parseLimit,
       orderBy: {
         title: 'asc',
+      },
+      where: {
+        title: {
+          contains: title,
+        },
       },
       include: {
         Book_Gender: {

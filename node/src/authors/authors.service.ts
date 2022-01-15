@@ -34,6 +34,7 @@ export class AuthorsService {
     const authors = await this.prisma.author.findMany({
       include: {
         Book: {
+          take: 3,
           select: {
             title: true,
             description: true,

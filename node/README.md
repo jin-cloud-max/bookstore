@@ -1,4 +1,4 @@
-[] - Cadastro de livros
-[] - Listagens de Livros
-[] - Um livro deve pertencer a um(a) autor(a)
-[] - O livros devem ser de uma editora
+[x] - Cadastro de livros
+[x] - Listagens de Livros
+[x] - Um livro deve pertencer a um(a) autor(a)
+[x] - O livros devem ser de uma editora
