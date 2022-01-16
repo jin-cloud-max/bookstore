@@ -3,13 +3,12 @@ import {
   Get,
   Post,
   Body,
-  Patch,
   Param,
   Delete,
+  Query,
 } from '@nestjs/common';
-import { PublishersService } from './publishers.service';
 import { CreatePublisherDto } from './dto/create-publisher.dto';
-import { UpdatePublisherDto } from './dto/update-publisher.dto';
+import { PublishersService } from './publishers.service';
 
 @Controller('publishers')
 export class PublishersController {
@@ -17,12 +16,20 @@ export class PublishersController {
 
   @Post()
   create(@Body() { name }: CreatePublisherDto) {
-    return this.publishersService.create({ name });
+    return this.publishersService.create(name);
   }
 
   @Get()
-  findAll() {
-    return this.publishersService.findAll();
+  findAll(
+    @Query('limit') limit: string,
+    @Query('page') page: string,
+    @Query('name') name: string,
+  ) {
+    return this.publishersService.findAll({
+      limit,
+      page,
+      name,
+    });
   }
 
   @Get(':id')
@@ -30,13 +37,13 @@ export class PublishersController {
     return this.publishersService.findOne(+id);
   }
 
-  @Patch(':id')
-  update(
-    @Param('id') id: string,
-    @Body() updatePublisherDto: UpdatePublisherDto,
-  ) {
-    return this.publishersService.update(+id, updatePublisherDto);
-  }
+  // @Patch(':id')
+  // update(
+  //   @Param('id') id: string,
+  //   @Body() updatePublisherDto: UpdatePublisherDto,
+  // ) {
+  //   return this.publishersService.update(+id, updatePublisherDto);
+  // }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
