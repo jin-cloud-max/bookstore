@@ -25,8 +25,10 @@ export class GenresService {
     });
   }
 
-  findAll() {
-    return `This action returns all genres`;
+  async findAll() {
+    const genres = await this.prisma.gender.findMany();
+
+    return genres;
   }
 
   findOne(id: number) {

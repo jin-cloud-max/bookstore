@@ -36,9 +36,9 @@ export class BooksController {
     return this.booksService.findAll(page, limit, title);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.booksService.findOne(+id);
+  @Get('/book')
+  findOne(@Query('title') title: string) {
+    return this.booksService.findOne(title);
   }
 
   @Patch(':id')

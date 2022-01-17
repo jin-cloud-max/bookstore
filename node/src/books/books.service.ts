@@ -94,8 +94,35 @@ export class BooksService {
     return books;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} book`;
+  async findOne(title: string) {
+    const book = await this.prisma.book.findFirst({
+      where: {
+        title,
+      },
+      include: {
+        Book_Gender: {
+          select: {
+            gender: true,
+          },
+        },
+        author: {
+          select: {
+            name: true,
+          },
+        },
+        publisher: {
+          select: {
+            name: true,
+          },
+        },
+      },
+    });
+
+    if (!book) {
+      throw new HttpException('Book not found', HttpStatus.NOT_FOUND);
+    }
+
+    return book;
   }
 
   update(id: number, updateBookDto: UpdateBookDto) {
